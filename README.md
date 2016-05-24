@@ -35,6 +35,23 @@ Output:
     Duck Duck Go	http://duckduckgo.com
     GitHub	http://github.com
 
+
+The first XPATH expression in the command sets the base node on which all the
+following XPATH expressions are applied. Each of the following XPATH expressions
+then generate a column of the row of data.
+
+If you don't specify a `text()` node at the end of an XPATH expression, you'll get 
+a string representation of a node, which may be useful for debugging:
+
+     xpathdsv '//a' '/a' < sample.html
+
+Output:
+
+    <a href="http://news.ycombinator.com">Hacker News</a>
+    <a href="http://yahoo.com">Yahoo</a>
+    <a href="http://duckduckgo.com">Duck Duck Go</a>
+    <a href="http://github.com">GitHub</a>
+
 ## Usage
 
 
