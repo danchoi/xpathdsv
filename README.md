@@ -3,10 +3,37 @@
 
 Extract DSV text from HTML and XML using XPATH expressions.
 
-Example:
+## Example
 
-    xpathdsv $ xpathdsv  '//a'  '/a/text()' '/a/@href/text()' < ~/test.html
+If you have an HTML file like this:
 
+sample.html
+
+```html
+<html>
+  <head><title>Test</title></head>
+  <body>
+    <h1>Some links</h1>
+    <ul>
+      <li><a href="http://news.ycombinator.com">Hacker News</a></li>
+      <li><a href="http://yahoo.com">Yahoo</a>
+      <li><a href="http://duckduckgo.com">Duck Duck Go</a>
+      <li><a href="http://github.com">GitHub</a>
+    </ul>
+  </body>
+</html>
+```
+
+You can extract a list of tab-separated values like this:
+
+    xpathdsv  '//a'  '/a/text()' '/a/@href/text()' < sample.html
+
+Output:
+
+    Hacker News	http://news.ycombinator.com
+    Yahoo	http://yahoo.com
+    Duck Duck Go	http://duckduckgo.com
+    GitHub	http://github.com
 
 ## Usage
 
