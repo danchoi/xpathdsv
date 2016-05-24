@@ -43,7 +43,7 @@ mkXPaths [] = mkXPaths ["."]
 mkXPaths xpaths =
     let arrows :: ArrowXml a => [a XmlTree String]
         arrows = map (\x -> (listA
-                              (getText' >>> cleanText )
+                              (getXPathTrees x >>> getText' >>> cleanText )
                               >>^ concat)
                             `orElse` constA "")
                       xpaths
