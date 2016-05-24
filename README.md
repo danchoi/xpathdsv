@@ -3,6 +3,8 @@
 
 Extract DSV text from HTML and XML using XPATH expressions.
 
+Available on Hackage.
+
 ## Example
 
 If you have an HTML file like this:
