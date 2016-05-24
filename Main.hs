@@ -23,26 +23,34 @@ options = Options
     <*> many (strArgument (metavar "CHILD-XPATH"))
 
 opts = info (helper <*> options)
-            (header "xpathdsv" <> fullDesc <> progDesc "Extract DSV data from HTML or XML with XPath"
+            (header "xpathdsv" <> fullDesc 
+            <> progDesc "Extract DSV data from HTML or XML with XPath"
             <> footer "See https://github.com/danchoi/xpathdsv for more information.")
 
 main :: IO ()
 main = do
   o@Options{..} <- execParser opts
-  let xpaths' :: ArrowXml a => [a XmlTree String]
-      xpaths' = map (\x -> ((listA (getXPathTrees x 
-                              >>> ((isText >>> getText) `orElse` xshow this)
-                              >>> cleanText) >>^ concat )
-                            `orElse` constA "NULL")
-                    ) childXPaths
-      xpaths'' :: ArrowXml a => a XmlTree [String]
-      xpaths'' = listA (catA xpaths')
+  let xpaths'' = mkXPaths childXPaths
   r <- runX (readDocument [withValidate no, withWarnings no
                 , withParseHTML parseHtml, withInputEncoding utf8] ""
             >>> extractDSV xpathBase xpaths''
             )
   mapM_ (putStrLn . intercalate outputDelimiter) $ concat r
 
+
+mkXPaths :: ArrowXml a => [String] -> a XmlTree [String]
+mkXPaths [] = mkXPaths ["."]
+mkXPaths xpaths =
+    let arrows :: ArrowXml a => [a XmlTree String]
+        arrows = map (\x -> (listA
+                              (getText' >>> cleanText )
+                              >>^ concat)
+                            `orElse` constA "")
+                      xpaths
+    in listA (catA arrows)
+
+getText' :: ArrowXml a => a XmlTree String
+getText' = (isText >>> getText) `orElse` xshow this
 
 cleanText :: ArrowXml a => a String String
 cleanText = arr (T.unpack . T.concatMap escapeNewLines . T.strip . T.pack)
