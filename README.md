@@ -28,7 +28,7 @@ sample.html
 
 You can extract a list of tab-separated values like this:
 
-    xpathdsv  '//a'  '/a/text()' '/a/@href/text()' < sample.html
+    xpathdsv  '//a'  '/a/text()' '/a/@href' < sample.html
 
 Output:
 
@@ -42,8 +42,9 @@ The first XPATH expression in the command sets the base node on which all the
 following XPATH expressions are applied. Each of the following XPATH expressions
 then generate a column of the row of data.
 
-If you don't specify a `text()` node at the end of an XPATH expression, you'll get 
-a string representation of a node, which may be useful for debugging:
+If you don't specify a `text()` node at the end of an XPATH expression, you'll
+get a string representation of a node if the node is not an attribute, which
+may be useful for debugging:
 
      xpathdsv '//a' '/a' < sample.html
 

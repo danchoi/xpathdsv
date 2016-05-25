@@ -1,5 +1,5 @@
 name:                xpathdsv
-version:             0.1.0.0
+version:             0.1.1.0
 synopsis:            Command line tool to extract DSV data from HTML and XML with XPATH expressions
 description:         Please see README.md
 homepage:            https://github.com/danchoi/xpathdsv#readme

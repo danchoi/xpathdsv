@@ -51,7 +51,9 @@ mkXPaths nullOutput' xpaths =
     in listA (catA arrows)
 
 getText' :: ArrowXml a => a XmlTree String
-getText' = (isText >>> getText) `orElse` xshow this
+getText' = (isText >>> getText) 
+           `orElse` (isAttr >>> getChildren >>> getText)
+           `orElse` xshow this
 
 cleanText :: ArrowXml a => a String String
 cleanText = arr (T.unpack . T.concatMap escapeNewLines . T.strip . T.pack)
