@@ -6,6 +6,7 @@ import qualified Data.Text as T
 import Text.XML.HXT.XPath.Arrows
 import Options.Applicative
 import Data.List (intercalate)
+import Data.Monoid
 
 data Options = Options {
       parseHtml :: Bool
